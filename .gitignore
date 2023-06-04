@@ -30,3 +30,6 @@ _build
 logs
 
 .idea
+
+data/
+experiments/

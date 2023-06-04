@@ -1,8 +1,16 @@
 from setuptools import setup
+from pip.req import parse_requirements
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+install_reqs = parse_requirements('requirements.txt')
+reqs = [str(ir.req) for ir in install_reqs]
+
+setup(
+    ...
+    install_requires=reqs
+)
 setup(
     name="mvts_transformer",
     version="0.0.1",
@@ -16,10 +24,6 @@ setup(
     description="MVTS Transformer",
     long_description_content_type="text/markdown",
     long_description=long_description,
-    install_requires=[
-        "setuptools",
-        "pandas",
-        "websocket-client",
-        "requests"
+    install_requires=reqs,
     ],
 )

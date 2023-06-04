@@ -1,11 +1,10 @@
 from setuptools import setup
-from pip.req import parse_requirements
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-install_reqs = parse_requirements('requirements.txt')
-reqs = [str(ir.req) for ir in install_reqs]
+with open('requirements.txt', "r") as fh:
+    reqs = fh.readlines()
 
 
 setup(

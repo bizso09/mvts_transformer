@@ -7,10 +7,7 @@ with open("README.md", "r") as fh:
 install_reqs = parse_requirements('requirements.txt')
 reqs = [str(ir.req) for ir in install_reqs]
 
-setup(
-    ...
-    install_requires=reqs
-)
+
 setup(
     name="mvts_transformer",
     version="0.0.1",

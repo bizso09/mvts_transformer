@@ -16,9 +16,9 @@ from torch.utils.data import DataLoader
 import numpy as np
 import sklearn
 
-from utils import utils, analysis
-from models.loss import l2_reg_loss
-from datasets.dataset import ImputationDataset, TransductionDataset, ClassiregressionDataset, collate_unsuperv, collate_superv
+from mvts_transformer.utils import utils, analysis
+from mvts_transformer.models.loss import l2_reg_loss
+from mvts_transformer.datasets.dataset import ImputationDataset, TransductionDataset, ClassiregressionDataset, collate_unsuperv, collate_superv
 
 
 logger = logging.getLogger('__main__')
@@ -454,8 +454,8 @@ class SupervisedRunner(BaseRunner):
             mean_loss = batch_loss / len(loss)  # mean loss (over samples)
 
             per_batch['targets'].append(targets.cpu().numpy())
-            per_batch['predictions'].append(predictions.cpu().numpy())
-            per_batch['metrics'].append([loss.cpu().numpy()])
+            per_batch['predictions'].append(predictions.cpu().detach().numpy())
+            per_batch['metrics'].append([loss.cpu().detach().numpy()])
             per_batch['IDs'].append(IDs)
 
             metrics = {"loss": mean_loss}

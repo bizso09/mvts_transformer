@@ -25,14 +25,14 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
 # Project modules
-from options import Options
-from running import setup, pipeline_factory, validate, check_progress, NEG_METRICS
-from utils import utils
-from datasets.data import data_factory, Normalizer
-from datasets.datasplit import split_dataset
-from models.ts_transformer import model_factory
-from models.loss import get_loss_module
-from optimizers import get_optimizer
+from mvts_transformer.options import Options
+from mvts_transformer.running import setup, pipeline_factory, validate, check_progress, NEG_METRICS
+from mvts_transformer.utils import utils
+from mvts_transformer.datasets.data import data_factory, Normalizer
+from mvts_transformer.datasets.datasplit import split_dataset
+from mvts_transformer.models.ts_transformer import model_factory
+from mvts_transformer.models.loss import get_loss_module
+from mvts_transformer.optimizers import get_optimizer
 
 
 def main(config):
@@ -171,7 +171,7 @@ def main(config):
     lr_step = 0  # current step index of `lr_step`
     lr = config['lr']  # current learning step
     # Load model and optimizer state
-    if args.load_model:
+    if config['load_model']:
         model, optimizer, start_epoch = utils.load_model(model, config['load_model'], optimizer, config['resume'],
                                                          config['change_output'],
                                                          config['lr'],
@@ -195,10 +195,10 @@ def main(config):
                                             print_interval=config['print_interval'], console=config['console'])
         aggr_metrics_test, per_batch_test = test_evaluator.evaluate(keep_all=True)
         print_str = 'Test Summary: '
-        for k, v in aggr_metrics_test.items():
-            print_str += '{}: {:8f} | '.format(k, v)
-        logger.info(print_str)
-        return
+        #for k, v in aggr_metrics_test.items():
+        #    print_str += '{}: {:8f} | '.format(k, v)
+        #logger.info(print_str)
+        return per_batch_test
     
     # Initialize data generators
     dataset_class, collate_fn, runner_class = pipeline_factory(config)
@@ -300,6 +300,12 @@ def main(config):
     return best_value
 
 
+def run():
+    args = Options().parse()  # `argsparse` object
+    config = setup(args)  # configuration dictionary
+    return main(config)
+
+
 if __name__ == '__main__':
 
     #sys.argv = ["main.py", "--output_dir", "../experiments", "--comment", "pretraining", "--name",
@@ -308,7 +314,4 @@ if __name__ == '__main__':
     #                "0.2", "--epochs", "700", "--lr", "0.001", "--optimizer", "RAdam", "--batch_size", "32",
     #                "--pos_encoding", "learnable", "--d_model", "128"]
 
-
-    args = Options().parse()  # `argsparse` object
-    config = setup(args)  # configuration dictionary
-    main(config)
+    run()

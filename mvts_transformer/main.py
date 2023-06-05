@@ -302,6 +302,13 @@ def main(config):
 
 if __name__ == '__main__':
 
+    #sys.argv = ["main.py", "--output_dir", "../experiments", "--comment", "pretraining", "--name",
+    #                "pretrained", "--records_file", "../Imputation_records.xls", "--data_dir",
+    #                "../data/data/AppliancesEnergy", "--data_class", "tsra", "--pattern", "TRAIN", "--val_ratio",
+    #                "0.2", "--epochs", "700", "--lr", "0.001", "--optimizer", "RAdam", "--batch_size", "32",
+    #                "--pos_encoding", "learnable", "--d_model", "128"]
+
+
     args = Options().parse()  # `argsparse` object
     config = setup(args)  # configuration dictionary
     main(config)
